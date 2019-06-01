@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/geeox96/atualProject/issues"
   },
-  "homepage": "https://github.com/geeox96/atualProject#readme"
+  "homepage": "https://github.com/geeox96/atualProject#readme",
+  "dependencies": {
+    "nodemon": "^1.19.1"
+  }
 }
