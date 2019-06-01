@@ -1,0 +1,19 @@
+{
+  "name": "atual",
+  "version": "1.0.0",
+  "description": "Teste para Atual Sistemas",
+  "main": "cliente.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geeox96/atualProject.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geeox96/atualProject/issues"
+  },
+  "homepage": "https://github.com/geeox96/atualProject#readme"
+}
