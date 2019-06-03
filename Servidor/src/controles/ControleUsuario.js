@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const Usuarios = require('../modelos/usuario')
+const MovimentacaoEntrada = require('../modelos/movimentacaoEntrada')
+const MovimentacaoSaida = require('../modelos/movimentacaoSaida')
+const bcrypt = require('bcrypt')
 
 module.exports = {
     async novo(req, res) {
@@ -11,23 +14,35 @@ module.exports = {
 
         return res.status(201).json(usuario)
     },
+    async editarSenha(req, res) {
+        const id = req.params.id
 
-    async editar(req, res) {
-        const { nome, senha } = req.body
+        if (!await Usuarios.findOne({_id: id})) return res.status(400).send('Erro, ID não encontrado')
 
-        if ( !nome ) {
-            
-        }else if ( !senha ){
+        await Usuarios.findOneAndUpdate({_id: id}, { $set: { senha: bcrypt.hashSync(req.body.senha, bcrypt.genSaltSync(10), null) } })
 
-        }else {
-
-        }
+        
+        return res.send('Senha alterada com sucesso !')
     },
+    async editarNome(req, res) {
+        const id = req.params.id
 
+        if (!await Usuarios.findOne({_id: id})) return res.status(400).send('Erro, ID não encontrado')
+
+        await Usuarios.findOneAndUpdate({ _id: id }, {$set: { nome: req.body.nome } })
+
+        return res.send('Nome alterado com sucesso !')
+    },
     async apagar(req, res) {
-        await Usuario.findByIdAndDelete(req.params.id)
+        const id = req.params.id
 
-        return res.send('Deletado com sucesso !')
+        if (!await Usuarios.findOne({_id: id})) return res.status(400).send('Erro, ID não encontrado')
+
+        await Usuarios.findOneAndDelete({_id: id})
+        await MovimentacaoEntrada.findOneAndDelete({_id: id})
+        await MovimentacaoSaida.findOneAndDelete({_id: id})
+
+        return res.send('Usuario deletado com sucesso !')
     },
     async inicio(req, res) {
         const usuario = await Usuarios.find()

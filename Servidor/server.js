@@ -6,7 +6,7 @@ const config = require('./config')
 
 
 //mongoose
-const options = { reconnectTries: Number.MAX_VALUE, reconnectInterval: 500, poolSize: 5, useNewUrlParser: true }
+const options = { reconnectTries: Number.MAX_VALUE, reconnectInterval: 500, poolSize: 5, useNewUrlParser: true, useFindAndModify: false }
 mongoose.connect(config.dev.url, options)
 mongoose.set('useCreateIndex', true)
 mongoose.connection.on('error', (err) => {
@@ -29,3 +29,5 @@ module.exports = app;
 
 //ROTAS
 app.use('/api', require('./src/rotas/usuario'))
+app.use('/api', require('./src/rotas/movimentacao'))
+
