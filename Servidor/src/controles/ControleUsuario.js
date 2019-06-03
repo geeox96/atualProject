@@ -39,8 +39,8 @@ module.exports = {
         if (!await Usuarios.findOne({_id: id})) return res.status(400).send('Erro, ID não encontrado')
 
         await Usuarios.findOneAndDelete({_id: id})
-        await MovimentacaoEntrada.findOneAndDelete({_id: id})
-        await MovimentacaoSaida.findOneAndDelete({_id: id})
+        await MovimentacaoEntrada.findOneAndDelete({idUsuario: id})
+        await MovimentacaoSaida.findOneAndDelete({idUsuario: id})
 
         return res.send('Usuario deletado com sucesso !')
     },
