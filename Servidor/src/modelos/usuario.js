@@ -17,7 +17,7 @@ const UsuarioSchema = new Schema({
         type: String,
         required: true,
         select: false,
-        minlength: 10
+        minlength: 6
     },
     email: {
         type: String,

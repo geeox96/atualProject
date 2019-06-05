@@ -1,54 +1,41 @@
 <template>
   <div id="movimentacao">
-  <v-app id="inspire">
-    <v-card height="200px" flat>
-      <div class="headline text-xs-center pa-5">
-        Active: {{ bottomNav }}
-      </div>
-      <v-bottom-nav
-        :active.sync="bottomNav"
-        :value="true"
-        absolute
-        color="transparent"
-      >
-        <v-btn
-          color="teal"
-          flat
-          value="recent"
-        >
-          <span>Recent</span>
-          <v-icon>history</v-icon>
-        </v-btn>
-  
-        <v-btn
-          color="teal"
-          flat
-          value="favorites"
-        >
-          <span>Favorites</span>
-          <v-icon>favorite</v-icon>
-        </v-btn>
-  
-        <v-btn
-          color="teal"
-          flat
-          value="nearby"
-        >
-          <span>Nearby</span>
-          <v-icon>place</v-icon>
-        </v-btn>
-      </v-bottom-nav>
-    </v-card>
-  </v-app>
-</div>
+    <v-app id="inspire">
+      <v-card height="200px" flat>
+        <div class="headline text-xs-center pa-5">Active: {{ bottomNav }}</div>
+        <v-bottom-nav :active.sync="bottomNav" :value="true" absolute color="transparent">
+          <v-btn color="teal" flat value="recent">
+            <span>Recent</span>
+            <v-icon>history</v-icon>
+          </v-btn>
+
+          <v-btn color="teal" flat value="favorites">
+            <span>Favorites</span>
+            <v-icon>favorite</v-icon>
+          </v-btn>
+
+          <v-btn color="teal" flat value="nearby">
+            <span>Nearby</span>
+            <v-icon>place</v-icon>
+          </v-btn>
+        </v-bottom-nav>
+      </v-card>
+    </v-app>
+  </div>
 </template>
+
 <script>
 export default {
-  el: '#movimentacao',
+  el: "#movimentacao",
   data() {
-    return{
-      drawer: true
-    }
+    return {
+      bottomNav: true
+    };
   }
-}
+};
 </script>
+
+<style>
+
+</style>
+
