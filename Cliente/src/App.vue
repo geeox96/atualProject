@@ -16,7 +16,7 @@
             Usuarios
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile @click="navigateTo('movimentacao')">
+        <v-list-tile @click="('movimentacao')">
           <v-list-tile-action>
             <v-icon>fa-money</v-icon>
           </v-list-tile-action>
