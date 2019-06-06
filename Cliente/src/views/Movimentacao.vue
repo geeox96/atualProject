@@ -124,11 +124,7 @@ export default {
     }
   },
 
-  watch: {
-    dialog (val) {
-      val || this.close()
-    }
-  },
+
 
   created () {
     this.initialize()
@@ -210,6 +206,12 @@ export default {
       ]
     },
 
+      watch: {
+    dialog (val) {
+      val || this.close()
+    }
+  },
+
     editItem (item) {
       this.editedIndex = this.desserts.indexOf(item)
       this.editedItem = Object.assign({}, item)
@@ -220,6 +222,8 @@ export default {
       const index = this.desserts.indexOf(item)
       confirm('Are you sure you want to delete this item?') && this.desserts.splice(index, 1)
     },
+
+
 
     close () {
       this.dialog = false
