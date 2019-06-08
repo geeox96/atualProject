@@ -2,15 +2,13 @@
   <v-app id="inspire">
     <v-layout row>
       <v-flex>
+        <v-card>
           <v-alert
             dismissible
             :value="false"
-            v-model="notificacaoCaixaFechada"
+            v-model="exibirNotificacao"
             type="success"
-          >Você clicou em cancelar</v-alert></v-flex>
-      <v-flex>
-        <v-card>
-          
+          >{{ msg.notificao }}</v-alert>
           <v-toolbar color="#023788" dark>
             <v-toolbar-title>Usuarios</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -74,7 +72,7 @@
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn @click="fechar">Cencelar</v-btn>
-                  <v-btn :disabled="!validade" @click="salvar">Criar</v-btn>
+                  <v-btn :disabled="!validade" @click="criar">Criar</v-btn>
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -90,7 +88,7 @@
               <td>{{ props.item.nome }}</td>
               <td class="text-right">{{ props.item.email }}</td>
               <td class="justify-center layout px-0">
-                <v-icon color="#023788" medium class="mr-2" @click="editarItem(props.item)">edit</v-icon>
+                <v-icon color="#023788" medium class="mr-2" @click="editarUsuario()">edit</v-icon>
               </td>
             </template>
           </v-data-table>
@@ -105,6 +103,7 @@ import { apiUrl } from "../config.js";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
+import ComponenteEditarUsuario from "../components/EditarUsuario"
 
 Vue.use(VueAxios, axios);
 
@@ -112,11 +111,11 @@ export default {
   name: "Usuarios",
   data() {
     return {
+      msg: [],
       mostrarSenha: false,
       mostrarSenha1: false,
       caixaNovoUsuario: false,
-      notificacaoCadastrado: false,
-      notificacaoCaixaFechada: false,
+      exibirNotificacao: false,
       validade: false,
       usuarios: [],
       itens: [
@@ -145,13 +144,14 @@ export default {
         },
         senhaValidacao: value =>
           value == this.dadosUsuario.senha || "As senhas não coincidem"
-      },
+      }
     };
   },
 
-  computed: {
-    
+  components: {
+    ComponenteEditarUsuario
   },
+
 
   methods: {
     obterUsuarios() {
@@ -161,30 +161,46 @@ export default {
     },
 
     cadastrarUsuario() {
-      Vue.axios.post(apiUrl + "usuario", {
+      Vue.axios
+        .post(apiUrl + "usuario", {
           nome: this.dadosUsuario.nome,
           email: this.dadosUsuario.email,
           senha: this.dadosUsuario.senha
         })
         .then(response => {
-          this.notificacaoCadastrado = true;
+          this.notificar("contaCriada");
         });
+    },
+
+    editarUsuario() {
+      console.log('entrou aqui')
+      ComponenteEditarUsuario.testeChamada()
+      console.log('num eita aqui')
     },
 
     fechar() {
       this.dadosUsuario = Object.assign({}, this.dadosLimpo);
       this.caixaNovoUsuario = false;
-      this.notificacaoCaixaFechada = true;
     },
 
-    salvar() {
+    notificar(seletorDeNotificao) {
+      if (seletorDeNotificao == "contaCriada") {
+        this.msg.notificao = "Conta criada com sucesso !!";
+        this.exibirNotificacao = true;
+        setTimeout(() => {
+          this.exibirNotificacao = false;
+        }, 5000);
+      }
+    },
+
+    criar() {
       if (this.$refs.form.validate()) {
         this.cadastrarUsuario();
         this.obterUsuarios();
         this.dadosUsuario = Object.assign({}, this.dadosLimpo);
         this.fechar();
       }
-    },
+    }
   },
 
   mounted() {

@@ -40,7 +40,7 @@
       </v-container>
     </v-content>
     <v-footer app fixed>
-      <span>&copy; 2017</span>
+      <span>Teste Geovânio Carnelosso =D &copy;2019</span>
     </v-footer>
   </v-app>
 </div>
