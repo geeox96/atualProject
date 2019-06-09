@@ -73,6 +73,7 @@
                   <v-spacer></v-spacer>
                   <v-btn @click="fechar">Cencelar</v-btn>
                   <v-btn :disabled="!validade" @click="criar">Criar</v-btn>
+                  
                 </v-card-actions>
               </v-card>
             </v-dialog>
@@ -81,14 +82,13 @@
             :headers="itens"
             :items="usuarios"
             class="elevation-5"
-            filter="String"
             v-dialog
           >
             <template v-slot:items="props">
               <td>{{ props.item.nome }}</td>
               <td class="text-right">{{ props.item.email }}</td>
               <td class="justify-center layout px-0">
-                <v-icon color="#023788" medium class="mr-2" @click="editarUsuario()">edit</v-icon>
+                <editarUsuario />
               </td>
             </template>
           </v-data-table>
@@ -103,7 +103,7 @@ import { apiUrl } from "../config.js";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import ComponenteEditarUsuario from "../components/EditarUsuario"
+import EditarUsuario from "../components/EditarUsuario"
 
 Vue.use(VueAxios, axios);
 
@@ -149,7 +149,7 @@ export default {
   },
 
   components: {
-    ComponenteEditarUsuario
+    EditarUsuario
   },
 
 
@@ -170,12 +170,6 @@ export default {
         .then(response => {
           this.notificar("contaCriada");
         });
-    },
-
-    editarUsuario() {
-      console.log('entrou aqui')
-      ComponenteEditarUsuario.testeChamada()
-      console.log('num eita aqui')
     },
 
     fechar() {
