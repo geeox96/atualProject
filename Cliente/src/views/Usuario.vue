@@ -8,7 +8,7 @@
             :value="false"
             v-model="exibirNotificacao"
             type="success"
-          >{{ msg.notificao }}</v-alert>
+          >{{ msg.notificacao }}</v-alert>
           <v-toolbar color="#023788" dark>
             <v-toolbar-title>Usuarios</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -82,13 +82,16 @@
             :headers="itens"
             :items="usuarios"
             class="elevation-5"
-            v-dialog
+            ref="tableUsuarios"
           >
             <template v-slot:items="props">
               <td>{{ props.item.nome }}</td>
               <td class="text-right">{{ props.item.email }}</td>
               <td class="justify-center layout px-0">
-                <editarUsuario />
+                <editar-usuario 
+                :uuid="props.item._id"
+                :nomeUsuario="props.item.nome"
+                 />
               </td>
             </template>
           </v-data-table>
@@ -103,15 +106,13 @@ import { apiUrl } from "../config.js";
 import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
-import EditarUsuario from "../components/EditarUsuario"
-
-Vue.use(VueAxios, axios);
+import EditarUsuario from "../components/EditarUsuario";
 
 export default {
   name: "Usuarios",
   data() {
     return {
-      msg: [],
+      msg:{},
       mostrarSenha: false,
       mostrarSenha1: false,
       caixaNovoUsuario: false,
@@ -124,6 +125,7 @@ export default {
         { text: "Opções", value: "name", sortable: false }
       ],
       dadosUsuario: {
+        _id: "",
         nome: "",
         email: "",
         senha: "",
@@ -152,7 +154,6 @@ export default {
     EditarUsuario
   },
 
-
   methods: {
     obterUsuarios() {
       Vue.axios.get(apiUrl + "usuario").then(response => {
@@ -168,6 +169,9 @@ export default {
           senha: this.dadosUsuario.senha
         })
         .then(response => {
+          this.obterUsuarios()
+        })
+        .then(response => {
           this.notificar("contaCriada");
         });
     },
@@ -179,7 +183,7 @@ export default {
 
     notificar(seletorDeNotificao) {
       if (seletorDeNotificao == "contaCriada") {
-        this.msg.notificao = "Conta criada com sucesso !!";
+        this.msg.notificacao = "Conta criada com sucesso !!";
         this.exibirNotificacao = true;
         setTimeout(() => {
           this.exibirNotificacao = false;
@@ -190,7 +194,6 @@ export default {
     criar() {
       if (this.$refs.form.validate()) {
         this.cadastrarUsuario();
-        this.obterUsuarios();
         this.dadosUsuario = Object.assign({}, this.dadosLimpo);
         this.fechar();
       }
